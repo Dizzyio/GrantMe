@@ -209,3 +209,4 @@ C:\Users\backd\source\repos\Grant Me\Grant Me\obj\Debug\net9.0\refint\Grant Me.d
 C:\Users\backd\source\repos\Grant Me\Grant Me\obj\Debug\net9.0\Grant Me.pdb
 C:\Users\backd\source\repos\Grant Me\Grant Me\obj\Debug\net9.0\Grant Me.genruntimeconfig.cache
 C:\Users\backd\source\repos\Grant Me\Grant Me\obj\Debug\net9.0\ref\Grant Me.dll
+C:\Users\backd\source\repos\Grant Me\Grant Me\obj\Debug\net9.0\Grant Me.sourcelink.json
