@@ -8,3 +8,4 @@
         public required string EligibilityCriteria { get; set; }
         public decimal Amount { get; set; }
     }
+}
