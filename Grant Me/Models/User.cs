@@ -1,7 +1,9 @@
-﻿public class User
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Grant_Me.Models
 {
-    public int Id { get; set; }
-    public required string FullName { get; set; }
-    public required string Email { get; set; }
-    public bool IsEligible { get; set; }
+    public class User : IdentityUser
+    {
+        public string FullName { get; set; } = string.Empty;
+    }
 }

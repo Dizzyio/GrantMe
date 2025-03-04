@@ -1,13 +1,14 @@
-﻿using Grant_Me.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Grant_Me.Models;
 
-namespace Grant_Me.Data // Namespace matches the folder structure
+namespace Grant_Me.Data
 {
-    public class GrantDbContext : DbContext
+    public class GrantDbContext : IdentityDbContext<User>
     {
         public GrantDbContext(DbContextOptions<GrantDbContext> options) : base(options) { }
 
         public DbSet<Grant> Grants { get; set; }
-        public DbSet<User> Users { get; set; }
     }
 }
