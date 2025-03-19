@@ -1,0 +1,47 @@
+﻿@model Grant_Me.Models.ResultsViewModel
+
+@{
+    ViewData["Title"] = "Grant Eligibility Results";
+}
+
+<h1>Your Grant Eligibility Results</h1>
+
+@if (Model.EligibleGrants.Any())
+{
+    <h2>Eligible Grants</h2>
+    <ul>
+        @foreach (var grant in Model.EligibleGrants)
+        {
+            <li>
+                <strong>@grant.Name</strong><br />
+                <em>@grant.Description</em><br />
+                <span><b>Amount:</b> @(grant.Amount == 0m ? "Varies based on the project" : grant.Amount.ToString("C"))</span>
+
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No grants match your current eligibility.</p>
+}
+
+@if (Model.NearMissGrants.Any())
+{
+    <h2>Near Misses</h2>
+    <ul>
+        @foreach (var grant in Model.NearMissGrants)
+        {
+            <li>
+                <strong>@grant.Name</strong><br />
+                <em>@grant.Description</em><br />
+                <span><b>Amount:</b> @(grant.Amount == "0.00" ? "Varies based on the project" : grant.Amount)</span><br />
+                <b>Why You Missed:</b> @grant.NearMissReason
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No near misses were detected.</p>
+}

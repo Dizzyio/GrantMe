@@ -1,12 +1,11 @@
 ﻿using Grant_Me.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Grant_Me.Controllers
 {
-    [Route("api/auth")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -17,42 +16,87 @@ namespace Grant_Me.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        [HttpGet]
+        public IActionResult Login()
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            return View();
+        }
 
-            var user = new User { UserName = model.Email, Email = model.Email, FullName = model.FullName };
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Invalid login attempt");
+                return View(model);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false);
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Invalid login attempt");
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = new User
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FullName = model.FullName,
+                DateOfBirth = model.DateOfBirth,
+                Citizenship = model.Citizenship,
+                AnnualIncome = model.AnnualIncome,
+                HasDisability = model.HasDisability,
+                IsBusiness = model.IsBusiness,
+                BusinessName = model.IsBusiness ? model.BusinessName : null,
+                BusinessStructure = model.IsBusiness ? model.BusinessStructure : null,
+                BusinessRevenue = model.IsBusiness ? model.BusinessRevenue ?? 0.0m : 0.0m,
+                IsNonProfit = model.IsNonProfit,
+                CharityNumber = model.IsNonProfit ? model.CharityNumber : null
+            };
+
             var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
+                return View(model);
+            }
 
-            return Ok("User registered successfully");
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-
-            if (!result.Succeeded) return Unauthorized("Invalid login attempt");
-
-            return Ok("Login successful");
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
-    }
-
-    public class RegisterModel
-    {
-        public string FullName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-    }
-
-    public class LoginModel
-    {
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\backd\\source\\repos\\Grant Me\\Grant Me\\Grant Me.csproj": {}
+    "C:\\Users\\backd\\Desktop\\Grant Me\\Grant Me\\Grant Me.csproj": {}
   },
   "projects": {
-    "C:\\Users\\backd\\source\\repos\\Grant Me\\Grant Me\\Grant Me.csproj": {
+    "C:\\Users\\backd\\Desktop\\Grant Me\\Grant Me\\Grant Me.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\backd\\source\\repos\\Grant Me\\Grant Me\\Grant Me.csproj",
+        "projectUniqueName": "C:\\Users\\backd\\Desktop\\Grant Me\\Grant Me\\Grant Me.csproj",
         "projectName": "Grant Me",
-        "projectPath": "C:\\Users\\backd\\source\\repos\\Grant Me\\Grant Me\\Grant Me.csproj",
+        "projectPath": "C:\\Users\\backd\\Desktop\\Grant Me\\Grant Me\\Grant Me.csproj",
         "packagesPath": "C:\\Users\\backd\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\backd\\source\\repos\\Grant Me\\Grant Me\\obj\\",
+        "outputPath": "C:\\Users\\backd\\Desktop\\Grant Me\\Grant Me\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -51,6 +51,10 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Bootstrap": {
+              "target": "Package",
+              "version": "[5.3.3, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.2, )"
@@ -68,6 +72,10 @@
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[9.0.2, )"
+            },
+            "jQuery": {
+              "target": "Package",
+              "version": "[3.7.1, )"
             }
           },
           "imports": [

@@ -1,0 +1,116 @@
+﻿@model Grant_Me.Models.RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+<form asp-controller="Auth" asp-action="Register" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label>Full Name</label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Password</label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Date of Birth</label>
+        <input asp-for="DateOfBirth" type="date" class="form-control" />
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Citizenship</label>
+        <input asp-for="Citizenship" class="form-control" />
+        <span asp-validation-for="Citizenship" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Annual Income</label>
+        <input asp-for="AnnualIncome" type="number" step="0.01" class="form-control" />
+        <span asp-validation-for="AnnualIncome" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>
+            <input asp-for="HasDisability" type="checkbox" /> Has a Disability
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label>
+            <input asp-for="IsBusiness" type="checkbox" id="businessCheckbox" /> Registering as a Business
+        </label>
+    </div>
+
+    <div id="businessFields" style="display: none;">
+        <div class="form-group">
+            <label>Business Name</label>
+            <input asp-for="BusinessName" class="form-control" />
+            <span asp-validation-for="BusinessName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Business Structure</label>
+            <input asp-for="BusinessStructure" class="form-control" />
+            <span asp-validation-for="BusinessStructure" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Business Revenue</label>
+            <input asp-for="BusinessRevenue" type="number" step="0.01" class="form-control" />
+            <span asp-validation-for="BusinessRevenue" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>
+            <input asp-for="IsNonProfit" type="checkbox" id="nonProfitCheckbox" /> Registering as a Non-Profit
+        </label>
+    </div>
+
+    <div id="nonProfitFields" style="display: none;">
+        <div class="form-group">
+            <label>Charity Number</label>
+            <input asp-for="CharityNumber" class="form-control" />
+            <span asp-validation-for="CharityNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Register</button>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="text-danger">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
+
+</form>
+
+<script>
+    document.getElementById("businessCheckbox").addEventListener("change", function() {
+        document.getElementById("businessFields").style.display = this.checked ? "block" : "none";
+    });
+
+    document.getElementById("nonProfitCheckbox").addEventListener("change", function() {
+        document.getElementById("nonProfitFields").style.display = this.checked ? "block" : "none";
+    });
+</script>

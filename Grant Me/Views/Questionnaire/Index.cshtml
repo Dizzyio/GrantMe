@@ -1,0 +1,82 @@
+﻿@model Grant_Me.Models.UserResponse
+
+<form asp-controller="Questionnaire" asp-action="Submit" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label>Full Name</label>
+        <input asp-for="FullName" class="form-control" required />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Date of Birth</label>
+        <input asp-for="DateOfBirth" type="date" class="form-control" required />
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Citizenship</label>
+        <input asp-for="Citizenship" class="form-control" required />
+        <span asp-validation-for="Citizenship" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Annual Income</label>
+        <input asp-for="AnnualIncome" type="number" step="0.01" class="form-control" required />
+        <span asp-validation-for="AnnualIncome" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Do you have a disability?</label>
+        <input asp-for="HasDisability" type="checkbox" />
+    </div>
+
+    <div class="form-group">
+        <label>Is this a Business?</label>
+        <input asp-for="IsBusiness" type="checkbox" id="isBusinessCheckbox" onchange="toggleBusinessFields()" />
+    </div>
+
+    <div id="businessFields" style="display:none;">
+        <div class="form-group">
+            <label>Business Name</label>
+            <input asp-for="BusinessName" class="form-control" />
+            <span asp-validation-for="BusinessName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Business Revenue</label>
+            <input asp-for="BusinessRevenue" type="number" step="0.01" class="form-control" />
+            <span asp-validation-for="BusinessRevenue" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Is this a Non-Profit?</label>
+        <input asp-for="IsNonProfit" type="checkbox" id="isNonProfitCheckbox" onchange="toggleCharityFields()" />
+    </div>
+
+    <div id="charityFields" style="display:none;">
+        <div class="form-group">
+            <label>Charity Number</label>
+            <input asp-for="CharityNumber" class="form-control" />
+            <span asp-validation-for="CharityNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+    function toggleBusinessFields() {
+        var businessFields = document.getElementById("businessFields");
+        var isBusiness = document.getElementById("isBusinessCheckbox").checked;
+        businessFields.style.display = isBusiness ? "block" : "none";
+    }
+
+    function toggleCharityFields() {
+        var charityFields = document.getElementById("charityFields");
+        var isNonProfit = document.getElementById("isNonProfitCheckbox").checked;
+        charityFields.style.display = isNonProfit ? "block" : "none";
+    }
+</script>

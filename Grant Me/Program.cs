@@ -18,8 +18,21 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-app.UseAuthentication(); // Enables user login sessions
+app.UseStaticFiles(); // Enables serving static CSS/JS files
+app.UseStaticFiles(); // Enables serving static CSS/JS files
+
+
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
+
+// Removed app.MapControllers(); to avoid duplicate endpoint mapping
+
 app.Run();

@@ -10,5 +10,7 @@ namespace Grant_Me.Data
         public GrantDbContext(DbContextOptions<GrantDbContext> options) : base(options) { }
 
         public DbSet<Grant> Grants { get; set; }
+        public DbSet<UserResponse> UserResponses { get; set; }
+
     }
 }

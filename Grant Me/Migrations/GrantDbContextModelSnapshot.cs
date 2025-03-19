@@ -51,8 +51,30 @@ namespace Grant_Me.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<decimal>("AnnualIncome")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BusinessName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal?>("BusinessRevenue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BusinessStructure")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CharityNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Citizenship")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -65,6 +87,15 @@ namespace Grant_Me.Migrations
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("HasDisability")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsBusiness")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsNonProfit")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
@@ -109,6 +140,57 @@ namespace Grant_Me.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Grant_Me.Models.UserResponse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("AnnualIncome")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BusinessName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal?>("BusinessRevenue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BusinessStructure")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CharityNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Citizenship")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("HasDisability")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsBusiness")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsNonProfit")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserResponses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -237,6 +319,15 @@ namespace Grant_Me.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Grant_Me.Models.UserResponse", b =>
+                {
+                    b.HasOne("Grant_Me.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
