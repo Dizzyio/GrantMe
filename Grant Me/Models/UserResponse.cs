@@ -1,5 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Grant_Me.Models;
+using Microsoft.AspNetCore.Identity;
+
+
 
 namespace Grant_Me.Models
 {

@@ -1,0 +1,49 @@
+﻿@model Grant_Me.Models.HistoryViewModel
+
+@{
+    ViewData["Title"] = "My Grant History";
+}
+
+<h1>My Past Grant Submissions</h1>
+
+@if (!Model.Responses.Any())
+{
+    <p>You haven’t submitted any questionnaires yet.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Date Submitted</th>
+                <th>Citizenship</th>
+                <th>Annual Income</th>
+                <th>Has Disability</th>
+                <th>Business/Charity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var response in Model.Responses)
+            {
+                <tr>
+                    <td>@response.DateOfBirth.ToShortDateString()</td>
+                    <td>@response.Citizenship</td>
+                    <td>$@response.AnnualIncome</td>
+                    <td>@(response.HasDisability ? "Yes" : "No")</td>
+                    <td>
+                        @if (response.IsBusiness)
+                        {
+                            <span>Business: @response.BusinessName</span>
+
+                            <br />
+                        }
+                        @if (response.IsNonProfit)
+                        {
+                            <span>Charity #: @response.CharityNumber</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

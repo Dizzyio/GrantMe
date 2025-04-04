@@ -596,3 +596,4 @@ C:\Users\backd\Desktop\Grant Me\Grant Me\obj\Debug\net9.0\compressed\bwr7ygwogj-
 C:\Users\backd\Desktop\Grant Me\Grant Me\obj\Debug\net9.0\compressed\yk9i7sh4u7-h1s4sie4z3.gz
 C:\Users\backd\Desktop\Grant Me\Grant Me\obj\Debug\net9.0\compressed\g4xxzn700x-63fj8s7r0e.gz
 C:\Users\backd\Desktop\Grant Me\Grant Me\obj\Debug\net9.0\compressed\yby2p49xpv-0j3bgjxly4.gz
+C:\Users\backd\Desktop\Grant Me\Grant Me\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

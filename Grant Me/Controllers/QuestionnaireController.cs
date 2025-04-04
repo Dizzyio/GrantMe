@@ -21,9 +21,29 @@ namespace Grant_Me.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Submit(UserResponse userResponse)
         {
+            Console.WriteLine("Submit method was called!");
+
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("ModelState is invalid!");
+                foreach (var value in ModelState.Values)
+                {
+                    foreach (var error in value.Errors)
+                    {
+                        Console.WriteLine(" - " + error.ErrorMessage);
+                    }
+                }
                 return View("Index", userResponse);
+            }
+
+            // If the user is logged in, attach their UserId to the response
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
+                {
+                    userResponse.UserId = user.Id;
+                }
             }
 
             _context.UserResponses.Add(userResponse);
@@ -41,22 +61,39 @@ namespace Grant_Me.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);
+
                 if (user != null)
                 {
-                    model.FullName = user.FullName;
-                    model.DateOfBirth = user.DateOfBirth;
-                    model.Citizenship = user.Citizenship;
-                    model.AnnualIncome = user.AnnualIncome;
-                    model.HasDisability = user.HasDisability;
-                    model.BusinessName = user.BusinessName;
-                    model.BusinessStructure = user.BusinessStructure;
-                    model.BusinessRevenue = user.BusinessRevenue ?? 0;
-                    model.IsNonProfit = user.IsNonProfit;
-                    model.CharityNumber = user.CharityNumber;
+                    var existingResponse = _context.UserResponses.FirstOrDefault(r => r.UserId == user.Id);
+                    if (existingResponse != null)
+                    {
+                        // Update user's stored response (if needed)
+                        existingResponse.FullName = model.FullName;
+                        existingResponse.DateOfBirth = model.DateOfBirth;
+                        existingResponse.Citizenship = model.Citizenship;
+                        existingResponse.AnnualIncome = model.AnnualIncome;
+                        existingResponse.HasDisability = model.HasDisability;
+                        existingResponse.IsBusiness = model.IsBusiness;
+                        existingResponse.BusinessName = model.BusinessName;
+                        existingResponse.BusinessStructure = model.BusinessStructure;
+                        existingResponse.BusinessRevenue = model.BusinessRevenue ?? 0;
+                        existingResponse.IsNonProfit = model.IsNonProfit;
+                        existingResponse.CharityNumber = model.CharityNumber;
+
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Index", "Results", new { id = existingResponse.Id });
+                    }
+
+                    model.UserId = user.Id;
+                    _context.UserResponses.Add(model);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Results", new { id = model.Id });
                 }
             }
 
+            //  This return handles unauthenticated users
             return View(model);
         }
+
     }
 }
